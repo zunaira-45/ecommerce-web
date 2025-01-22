@@ -5,7 +5,7 @@ import Topbar from "@/app/Components/Topbar";
 import Testimonial from "@/app/Components/testimonials"; 
 import Footer from "@/app/Components/Footer"; 
 import Navbar from "@/app/Components/Navbar";
-import Image from "next/image";
+
 
 const sanity = sanityClient({
   projectId: "qep58c2d", 

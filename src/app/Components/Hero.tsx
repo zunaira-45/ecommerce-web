@@ -2,12 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+
 const Hero = () => {
   return (
     <div>
       
       <div className="relative">
-        <img 
+        <Image
           src="images/canva.png" 
           alt="Summer Collection" 
           className="w-full h-auto object-cover"
@@ -21,7 +22,7 @@ const Hero = () => {
       <div className="bg-slate-800 w-full h-auto py-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 px-4">
        
-          <img 
+          <Image
             src="images/farz.png" 
             alt="Summer Collection" 
             className="w-72 h-72 md:w-96 md:h-96 object-contain"
