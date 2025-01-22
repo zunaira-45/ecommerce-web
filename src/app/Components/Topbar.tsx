@@ -1,57 +1,66 @@
-
-import React from 'react'
-import { CiSearch } from 'react-icons/ci'
-import { IoCartOutline } from 'react-icons/io5'
+import React from 'react';
+import { CiSearch } from 'react-icons/ci';
+import { IoCartOutline } from 'react-icons/io5';
 import { CiPhone } from "react-icons/ci";
 import { MdOutlineEmail } from "react-icons/md";
 import { IoLogoInstagram } from "react-icons/io";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa6";
+import { FaFacebook, FaTwitter, FaYoutube } from "react-icons/fa";
 import Link from 'next/link';
 import { IoMdHeartEmpty } from "react-icons/io";
 
-
 const Topbar = () => {
-    
-        
-   
   return (
     <div>
-       
-            <div className='bg-blue-950 p-3 text-white flex gap-x-6'>
-                <div className='md:flex justify-end items-center flex gap-x-8'>
-                <h1><CiPhone/></h1>
-                <p>(225) 555-0118</p>
-                <h2><MdOutlineEmail/></h2>
-                <p>michelle.rivera@example.com</p>
-                <p>Follow Us  and get a chance to win 80% off</p>
-                <p>Follow Us:</p>
-                <p><IoLogoInstagram/></p> <p><FaFacebook/></p> <p><FaTwitter/></p> <p><FaYoutube/></p>
-                </div>
-
-    
-    
-        <div className='flex gap-x-5'>
-            <h1 className='text-blue font-bold'>Login/Register</h1>
-            <CiSearch/>
-            <IoCartOutline/>
-            <IoMdHeartEmpty/>1
-            </div>
-
-       </div>
-    
-
-     
-
-       
-       </div>
-        )}
-       
       
-  
+      <div className="bg-blue-950 p-3 text-white flex flex-col md:flex-row md:justify-between md:items-center gap-y-3">
+       
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <div className="flex items-center gap-2">
+            <CiPhone />
+            <p>(225) 555-0118</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <MdOutlineEmail />
+            <p>michelle.rivera@example.com</p>
+          </div>
+          <p className="hidden md:block">Follow Us and get a chance to win 80% off</p>
+          <div className="flex items-center gap-3">
+            <p className="hidden md:block">Follow Us:</p>
+            <IoLogoInstagram />
+            <FaFacebook />
+            <FaTwitter />
+            <FaYoutube />
+          </div>
+        </div>
 
-  
+       
+        <div className="flex items-center gap-5 justify-between">
+          <li className="list-none">
+            <Link 
+              className="text-gray-500 hover:text-blue-100 font-serif cursor-pointer" 
+              href="/login"
+            >
+              Login/Register
+            </Link>
+          </li>
 
-export default Topbar
+          <Link 
+              className="text-gray-500 hover:text-blue-100 font-serif cursor-pointer" 
+              href="/cart"
+            >
+              Login/Register
+            </Link> <CiSearch className="cursor-pointer" />
+          <IoCartOutline className="cursor-pointer" />
+          <div className="flex items-center gap-1">
+            <IoMdHeartEmpty />
+            <span>1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Topbar;
+
 

@@ -1,39 +1,53 @@
-import React from 'react'
-import Link from 'next/link'
+'use client'
+import React, { useState } from 'react';
+import Link from 'next/link';
+import SearchBar from './searchbar';
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div>
-      <div className='flex justify-between items-center p-4 '>
-        <h1 className='font-bold'>Bandages</h1>
+     
+      <SearchBar />
+
+      
+      <div className="flex justify-between items-center p-4 bg-gray-100">
+        
+        <h1 className="font-bold text-lg">Clothing & Bags</h1>
+
+        
+        <button 
+          className="md:hidden text-xl" 
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
+
+       
         <nav>
-          <ul className='flex gap-5 mr-4'>
-            <li className='text-gray-500 hover:text-white-500 font-serif'><Link href='/'>Home</Link>
+          <ul
+            className={`flex flex-col md:flex-row gap-5 absolute md:static bg-gray-100 w-full md:w-auto p-4 md:p-0 transition-transform duration-300 ${
+              menuOpen ? 'top-16 left-0' : '-top-96'
+            }`}
+          >
+            <li className="text-gray-500 hover:text-blue-100 font-serif">
+              <Link href="/">Home</Link>
             </li>
-            <li>
-              <Link className=' text-gray-500 hover:text-blue-100 font-serif' href="/shop">Shop</Link>
+            <li className="text-gray-500 hover:text-blue-100 font-serif">
+              <Link href="/shop">Shop</Link>
             </li>
-            <li>
-              <Link className=' text-gray-500 hover:text-blue-100 font-serif' href="/hoop">Products</Link>
+            <li className="text-gray-500 hover:text-blue-100 font-serif">
+              <Link href="/login">Login/Sign Up</Link>
             </li>
-            
-            <li>
-              <Link className='text-gray-500 hover:text-blue-100 font-serif' href="/about">About</Link>
-            </li>
-            <li>
-              <Link className='text-gray-500 hover:text-blue-100 font-serif' href="/products">Pricing</Link>
-            </li>
-            <li>
-              <Link className='text-gray-500 hover:text-blue-100 font-serif' href="/contacts">Contacts</Link>
-            </li>
-            <li>
-              <Link className='text-gray-500 hover:text-blue-100 font-serif' href="/contactus">Contact Us</Link>
+            <li className="text-gray-500 hover:text-blue-100 font-serif">
+              <Link href="/contactus">Contact Us</Link>
             </li>
           </ul>
         </nav>
+      </div>
     </div>
-    </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

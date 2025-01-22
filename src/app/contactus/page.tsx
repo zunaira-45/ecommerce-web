@@ -1,143 +1,149 @@
-import React from 'react'
-import { IoLogoInstagram } from "react-icons/io";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import Topbar from '../Components/Topbar';
+"use client";
 
-const page = () => {
+import React, { useState } from "react";
+import { FaPhoneAlt, FaEnvelope, FaLocationArrow } from "react-icons/fa";
+import Topbar from "../Components/Topbar";
+import Navbar from "../Components/Navbar";
+import Testimonial from "../Components/testimonials"; 
+import Footer from "../Components/Footer";
+
+const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+ 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    console.log("Form submitted", formData);
+
+  
+    setFormData({
+      name: "",
+      email: "",
+      message: "",
+    });
+
+    
+    setTimeout(() => setIsSubmitted(false), 5000);
+  };
+
+  
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
-    <div>
-      <Topbar/>
-      <div className="header flex items-center justify-center gap-x-8">
-        <h1 className="font-bold text-2xl">Bandage</h1>
-        <nav className='mt-2'>
-            <ul className="flex gap-x-4">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      
+      <Topbar />
+      <Navbar />
+      <br />
+      <br />
+      <div className="max-w-7xl mx-auto">
         
-            <li>
-              <a href="/">Home</a>
-            </li>
-            <li>
-              <a href="/hoop">Product</a>
-            </li>
-            <li>
-              <a href="/products">Pricing</a>
-            </li>
-            <li>
-              <a href="/contacts">Contact</a>
-            </li>
-            <li>
-              
-            </li>
-            <li>
-               
-            </li>
-            </ul>
-        </nav>
-        <button className='text-blue-500'>
-                    Login
-                </button>
-              <button className="bg-blue-500 m-2 p-2 text-white">
-                Become a member
-              </button>
-      </div>
-      <br></br>
-
-      <div>
-        <img src="images/rec.png"></img>
-      </div>
-      <div>
-        <img src="images/file.png"></img>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-blue-600">Contact Us</h1>
+          <p className="mt-4 text-lg text-gray-700">
+            We're here to help! Get in touch with us for any questions, feedback, or inquiries.
+          </p>
         </div>
-        <div>
-            <h1 className='text-center font-bold'>WE CANT WAIT TO MEET YOU</h1>
-            <p className='text-2xl font-bold text-center'>
-                Lets Talk
-            </p>
-            <p className='text-center'>
-            <button className='bg-blue-500 p-4 m-4 text-white'>
-                Try it For Free Now
+
+       
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+          <div className="flex items-center space-x-4 text-lg text-gray-600">
+            <FaPhoneAlt className="text-3xl text-blue-600" />
+            <p>+123 456 7890</p>
+          </div>
+          <div className="flex items-center space-x-4 text-lg text-gray-600">
+            <FaEnvelope className="text-3xl text-blue-600" />
+            <p>contact@company.com</p>
+          </div>
+          <div className="flex items-center space-x-4 text-lg text-gray-600">
+            <FaLocationArrow className="text-3xl text-blue-600" />
+            <p>123 Main St, City, Country</p>
+          </div>
+        </div>
+
+      
+        <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-auto">
+          <h2 className="text-3xl font-semibold text-center text-blue-600">
+            Send Us a Message
+          </h2>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div className="flex flex-col">
+              <label className="text-lg text-gray-700" htmlFor="name">
+                Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="border-2 border-gray-300 p-3 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-lg text-gray-700" htmlFor="email">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="border-2 border-gray-300 p-3 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-lg text-gray-700" htmlFor="message">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                className="border-2 border-gray-300 p-3 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-600 h-32"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white py-3 rounded-md mt-6 hover:bg-blue-700 transition duration-200"
+            >
+              Send Message
             </button>
-            </p>
+          </form>
+
+         
+          {isSubmitted && (
+            <div className="mt-4 text-green-600 text-center font-semibold">
+              <p>Thank you for messaging us! We will contact you soon.</p>
+            </div>
+          )}
         </div>
+      </div>
 
-
-
-
-
-
-
-        <div className='bg-gray-300'>
-            <div className='  flex gap-1 flex items-center justify-between'>
-      <h1 className='font-bold text-2xl'>Bandage</h1>
-    <p className='text-blue-500'><IoLogoInstagram/></p>
-    <p className='text-blue-500'><FaFacebook/></p>
-    <p className='text-blue-500'><FaTwitter/></p>
+      
+      <Testimonial />
+      <Footer/>
     </div>
-    </div>
-    <br></br>
-    <br></br>
+  );
+};
 
-      <div className='bg-white-600'>
-    <div className='grid grid-cols-5'>
-        <div className='col-span-1'><h1 className='font-bold'>Company Info</h1>
-            <p>About US</p>
-            <p>Carrier</p>
-            <p>We are hiring</p>
-            <p>Blogs</p>
-        </div>
-
-        <div className='col-span-1'>
-            <h2 className='font-bold'>Legal</h2>
-        <p>
-            About Us
-        </p>
-        <p>
-            Carrier
-        </p>
-        <p>
-            We are hiring
-        </p>
-        <p>
-            Blog
-        </p>
-        </div>
-
-        <div>
-            <h3 className='font-bold'>Features</h3>
-            <p>
-            Business Marketing</p>
-                <p>
-                User Analytic </p>
-                    <p>
-                    Live Chat</p>
-                        <p>
-                        Unlimited Support </p></div>
-
-        <div><h2 className='font-bold'>Resources</h2>
-        <p>
-        IOS & Android </p>
-            <p>
-            Watch a Demo </p>
-                <p>
-                Customers </p>
-                    <p>
-                    API</p></div>
-
-
-        <div> <h1 className='font-bold'>Get in Touch</h1>
-            <input
-            type="email"
-            placeholder='Enter your Email'
-            className='border border-black p-2 mt-2 mb-2'/>
-            <button className='bg-green-500 text-white'>
-                Subscribe
-                </button>
-        </div>
-        </div>
-
-    </div>
-    </div>
-  )
-}
-
-export default page
+export default ContactUs;
