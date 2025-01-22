@@ -4,35 +4,35 @@ const Testimonial = () => {
   const testimonials = [
     {
       id: 1,
-      name: 'David Smith',
-      feedback: 'This is the best online store I have ever shopped from! Great products and fantastic service.',
-      role: 'Customer',
+      name: "David Smith",
+      feedback: "This is the best online store I have ever shopped from! Great products and fantastic service.",
+      role: "Customer",
     },
     {
       id: 2,
-      name: 'Jane Smith',
-      feedback: 'I love the quality and variety of bags. Fast delivery and excellent customer support!',
-      role: 'Customer',
+      name: "Jane Smith",
+      feedback: "I love the quality and variety of bags. Fast delivery and excellent customer support",
+      role: "Customer",
     },
     {
       id: 3,
-      name: 'Mark Wilson',
-      feedback: 'My experience was smooth, and I will definitely be back for more. Highly recommend this site!',
-      role: 'Customer',
+      name: "Mark Wilson",
+      feedback: "My experience was smooth, and I will definitely be back for more. Highly recommend this site",
+      role: "Customer",
     },
 
     {
       id: 4,
-      name: 'William',
-      feedback: 'Highly recommended',
-      role: 'Customer',
+      name: "William",
+      feedback: "Highly recommended",
+      role: "Customer",
     },
 
     {
       id: 5,
-      name: 'Sonalika',
-      feedback: 'Beautiful Dress i will definitely shop again',
-      role: 'Customer',
+      name: "Sonalika",
+      feedback: "Beautiful Dress i will definitely shop again",
+      role: "Customer",
     },
 
 

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Topbar from "./Components/Topbar";
 import Hero from "./Components/Hero";
 import Footer from "./Components/Footer";

@@ -1,5 +1,4 @@
 import React from 'react';
-import { CiSearch } from 'react-icons/ci';
 import { IoCartOutline } from 'react-icons/io5';
 import { CiPhone } from "react-icons/ci";
 import { MdOutlineEmail } from "react-icons/md";

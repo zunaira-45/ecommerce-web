@@ -52,7 +52,7 @@ const ContactUs = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-blue-600">Contact Us</h1>
           <p className="mt-4 text-lg text-gray-700">
-            We're here to help! Get in touch with us for any questions, feedback, or inquiries.
+            We are here to help! Get in touch with us for any questions, feedback, or inquiries.
           </p>
         </div>
 
