@@ -46,11 +46,12 @@ const Topbar = () => {
 
           <Link 
               className="text-gray-500 hover:text-blue-100 font-serif cursor-pointer" 
-              href="/cart"
+              href="/checkout"
             >
-              Login/Register
-            </Link> <CiSearch className="cursor-pointer" />
-          <IoCartOutline className="cursor-pointer" />
+              <IoCartOutline className="cursor-pointer" />
+            </Link> 
+            
+          
           <div className="flex items-center gap-1">
             <IoMdHeartEmpty />
             <span>1</span>
