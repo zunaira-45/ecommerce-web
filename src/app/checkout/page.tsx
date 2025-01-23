@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 interface CartItem {
@@ -12,7 +12,6 @@ interface CartItem {
 }
 
 const CheckoutPage: React.FC = () => {
-  const searchParams = useSearchParams();
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [billingInfo, setBillingInfo] = useState({
@@ -22,19 +21,19 @@ const CheckoutPage: React.FC = () => {
   });
   const [orderPlaced, setOrderPlaced] = useState(false);
 
+  // Fetch cart data from the query string
   useEffect(() => {
-    if (searchParams) {
-      const cartData = searchParams.get("cart");
-      if (cartData) {
-        try {
-          const parsedCart = JSON.parse(decodeURIComponent(cartData));
-          setCart(parsedCart);
-        } catch (err) {
-          console.error("Error parsing cart data:", err);
-        }
+    const urlParams = new URLSearchParams(window.location.search);
+    const cartData = urlParams.get("cart");
+    if (cartData) {
+      try {
+        const parsedCart = JSON.parse(decodeURIComponent(cartData));
+        setCart(parsedCart);
+      } catch (err) {
+        console.error("Error parsing cart data:", err);
       }
     }
-  }, [searchParams]);
+  }, []);
 
   const handleBillingChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -48,14 +47,12 @@ const CheckoutPage: React.FC = () => {
       alert("Please complete your billing information.");
       return;
     }
-
-    // Simulate order placement
     setOrderPlaced(true);
     setCart([]);
     setTimeout(() => {
       setOrderPlaced(false);
       router.push("/");
-    }, 5000); // Redirect after 5 seconds
+    }, 60000);
   };
 
   const calculateTotal = () =>
@@ -63,6 +60,7 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Top Bar */}
       <div className="bg-blue-600 text-white p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">E-Commerce</h1>
@@ -82,13 +80,20 @@ const CheckoutPage: React.FC = () => {
               Order Placed Successfully!
             </h1>
             <p className="mt-2 text-gray-700">
-              Thank you for your order. Redirecting to home...
+              Thank you for your order. We will ship it soon.
             </p>
+            <button
+              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              onClick={() => router.push("/")}
+            >
+              Back to Home
+            </button>
           </div>
         ) : (
           <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
 
+            {/* Cart Items */}
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">
                 Order Summary
@@ -109,7 +114,9 @@ const CheckoutPage: React.FC = () => {
                       />
                       <div className="ml-4 flex-1">
                         <h3 className="text-lg font-semibold">{item.title}</h3>
-                        <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                        <p className="text-gray-600">
+                          ${item.price.toFixed(2)}
+                        </p>
                       </div>
                     </div>
                   ))}
@@ -124,6 +131,7 @@ const CheckoutPage: React.FC = () => {
               )}
             </div>
 
+            {/* Billing Information */}
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">
                 Billing Information
@@ -158,6 +166,7 @@ const CheckoutPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Place Order Button */}
             <button
               className="w-full py-3 bg-green-600 text-white text-lg font-semibold rounded-md hover:bg-green-700"
               onClick={handlePlaceOrder}
@@ -172,6 +181,3 @@ const CheckoutPage: React.FC = () => {
 };
 
 export default CheckoutPage;
-
-
-
