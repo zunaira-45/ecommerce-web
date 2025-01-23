@@ -48,12 +48,14 @@ const CheckoutPage: React.FC = () => {
       alert("Please complete your billing information.");
       return;
     }
+
+    // Simulate order placement
     setOrderPlaced(true);
     setCart([]);
     setTimeout(() => {
       setOrderPlaced(false);
       router.push("/");
-    }, 60000);
+    }, 5000); // Redirect after 5 seconds
   };
 
   const calculateTotal = () =>
@@ -61,7 +63,6 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      {/* Top Bar */}
       <div className="bg-blue-600 text-white p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">E-Commerce</h1>
@@ -77,22 +78,21 @@ const CheckoutPage: React.FC = () => {
       <div className="flex-grow flex items-center justify-center">
         {orderPlaced ? (
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-            <h1 className="text-2xl font-bold text-green-600">Order Placed Successfully!</h1>
-            <p className="mt-2 text-gray-700">Thank you for your order. We will ship it soon.</p>
-            <button
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-              onClick={() => router.push("/")}
-            >
-              Back to Home
-            </button>
+            <h1 className="text-2xl font-bold text-green-600">
+              Order Placed Successfully!
+            </h1>
+            <p className="mt-2 text-gray-700">
+              Thank you for your order. Redirecting to home...
+            </p>
           </div>
         ) : (
           <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
 
-            {/* Cart Items */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Order Summary</h2>
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                Order Summary
+              </h2>
               {cart.length > 0 ? (
                 <div className="space-y-4">
                   {cart.map((item) => (
@@ -124,9 +124,10 @@ const CheckoutPage: React.FC = () => {
               )}
             </div>
 
-            {/* Billing Information */}
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-700 mb-4">Billing Information</h2>
+              <h2 className="text-xl font-semibold text-gray-700 mb-4">
+                Billing Information
+              </h2>
               <div className="space-y-4">
                 <input
                   type="text"
@@ -157,7 +158,6 @@ const CheckoutPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Place Order Button */}
             <button
               className="w-full py-3 bg-green-600 text-white text-lg font-semibold rounded-md hover:bg-green-700"
               onClick={handlePlaceOrder}
@@ -172,5 +172,6 @@ const CheckoutPage: React.FC = () => {
 };
 
 export default CheckoutPage;
+
 
 
