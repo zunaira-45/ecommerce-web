@@ -16,7 +16,11 @@ const CheckoutPage: React.FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [billingInfo, setBillingInfo] = useState({ name: "", address: "" });
+  const [billingInfo, setBillingInfo] = useState({
+    name: "",
+    address: "",
+    paymentMethod: "Credit Card",
+  });
   const [orderPlaced, setOrderPlaced] = useState(false);
 
   useEffect(() => {
@@ -31,13 +35,12 @@ const CheckoutPage: React.FC = () => {
     }
   }, [searchParams]);
 
-  const handleBillingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBillingChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setBillingInfo((prev) => ({ ...prev, [name]: value }));
   };
-
-  const calculateTotal = () =>
-    cart.reduce((total, item) => total + item.price, 0);
 
   const handlePlaceOrder = () => {
     if (!billingInfo.name || !billingInfo.address) {
@@ -45,117 +48,114 @@ const CheckoutPage: React.FC = () => {
       return;
     }
     setOrderPlaced(true);
+    setCart([]);
     setTimeout(() => {
       setOrderPlaced(false);
-      router.push("/checkout");
-    }, 60000); 
+      router.push("/");
+    }, 60000);
   };
 
+  const calculateTotal = () =>
+    cart.reduce((total, item) => total + item.price, 0);
+
   return (
-    <div className="p-6 md:p-8 lg:p-10">
+    
+    <div className="min-h-screen p-6 bg-gray-100 flex flex-col items-center">
+     
       {orderPlaced ? (
-        <div className="text-center bg-green-100 p-6 rounded-lg shadow-md">
-          <h1 className="text-3xl font-bold text-green-800">
-            🎉 Congratulations on Your Order! 🎉
-          </h1>
-          <p className="text-lg mt-4 text-gray-700">
-            Thank you for shopping with us! Your order has been successfully
-            placed, and we will ship it to your address soon.
-          </p>
-          <div className="mt-6">
-            <h2 className="text-2xl font-semibold mb-4">Order Summary</h2>
-            <ul className="space-y-4">
-              {cart.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex items-center space-x-4 bg-gray-100 p-3 rounded-md shadow-sm"
-                >
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    width={50}
-                    height={50}
-                    className="rounded-md"
-                  />
-                  <div>
-                    <p className="font-medium">{item.title}</p>
-                    <p className="text-sm text-gray-600">
-                      ${item.price.toFixed(2)}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 text-lg font-bold">
-              Grand Total: ${calculateTotal().toFixed(2)}
-            </div>
-          </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+          <h1 className="text-2xl font-bold text-green-600">Order Placed Successfully!</h1>
+          <p className="mt-2 text-gray-700">Thank you for your order. We will ship it soon.</p>
           <button
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
             onClick={() => router.push("/")}
-            className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
           >
             Back to Home
           </button>
         </div>
       ) : (
-        <>
-          <h1 className="text-2xl font-bold mb-4">Checkout</h1>
-          <div className="mb-4">
-            <input
-              type="text"
-              name="name"
-              value={billingInfo.name}
-              onChange={handleBillingChange}
-              placeholder="Your Name"
-              className="w-full border p-2 rounded-md mb-2"
-            />
-            <input
-              type="text"
-              name="address"
-              value={billingInfo.address}
-              onChange={handleBillingChange}
-              placeholder="Your Address"
-              className="w-full border p-2 rounded-md"
-            />
-          </div>
-          <div className="mt-4">
-            <h2 className="text-xl font-bold mb-2">Cart Summary</h2>
-            <ul className="space-y-3">
-              {cart.map((item) => (
-                <li
-                  key={item.id}
-                  className="flex items-center space-x-4 bg-gray-100 p-3 rounded-md shadow-sm"
-                >
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.title}
-                    width={50}
-                    height={50}
-                    className="rounded-md"
-                  />
-                  <div>
-                    <p className="font-medium">{item.title}</p>
-                    <p className="text-sm text-gray-600">
-                      ${item.price.toFixed(2)}
-                    </p>
+        <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6">
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
+
+          {/* Cart Items */}
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">Order Summary</h2>
+            {cart.length > 0 ? (
+              <div className="space-y-4">
+                {cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center bg-gray-50 p-4 rounded-md shadow-sm"
+                  >
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.title}
+                      width={80}
+                      height={80}
+                      className="rounded-md"
+                    />
+                    <div className="ml-4 flex-1">
+                      <h3 className="text-lg font-semibold">{item.title}</h3>
+                      <p className="text-gray-600">${item.price.toFixed(2)}</p>
+                    </div>
                   </div>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-4 font-bold text-lg">
-              Total: ${calculateTotal().toFixed(2)}
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600">Your cart is empty.</p>
+            )}
+            {cart.length > 0 && (
+              <div className="mt-4 text-right font-bold text-lg">
+                Total: ${calculateTotal().toFixed(2)}
+              </div>
+            )}
+          </div>
+
+         
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-700 mb-4">Billing Information</h2>
+            <div className="space-y-4">
+              <input
+                type="text"
+                name="name"
+                value={billingInfo.name}
+                onChange={handleBillingChange}
+                placeholder="Full Name"
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <input
+                type="text"
+                name="address"
+                value={billingInfo.address}
+                onChange={handleBillingChange}
+                placeholder="Shipping Address"
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <select
+                name="paymentMethod"
+                value={billingInfo.paymentMethod}
+                onChange={handleBillingChange}
+                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="Credit Card">Credit Card</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+              </select>
             </div>
           </div>
+
+         
           <button
+            className="w-full py-3 bg-green-600 text-white text-lg font-semibold rounded-md hover:bg-green-700"
             onClick={handlePlaceOrder}
-            className="mt-6 w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
           >
             Place Order
           </button>
-        </>
+        </div>
       )}
     </div>
   );
 };
 
 export default CheckoutPage;
+

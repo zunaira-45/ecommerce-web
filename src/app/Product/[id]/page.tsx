@@ -5,6 +5,9 @@ import Topbar from "@/app/Components/Topbar";
 import Testimonial from "@/app/Components/testimonials"; 
 import Footer from "@/app/Components/Footer"; 
 import Navbar from "@/app/Components/Navbar";
+import Image from "next/image";
+import CheckoutPage from "@/app/checkout/page";
+import Link from "next/link";
 
 
 const sanity = sanityClient({
@@ -193,7 +196,8 @@ const ProductDetails = ({ params }: { params: { id: string } }) => {
             onClick={() => alert("Proceed to checkout!")}
             className="mt-4 w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
           >
-            Checkout
+            <Link href="/checkout"> CheckOut</Link>
+           
           </button>
         </div>
       )}

@@ -2,6 +2,7 @@ import React from 'react'
 import Topbar from '../Components/Topbar'
 import Navbar from '../Components/Navbar'
 import Link from 'next/link'
+import Image from 'next/image'
 import Footer from '../Components/Footer'
 
 const page = () => {
@@ -15,7 +16,7 @@ const page = () => {
             <h1 className="title-font text-5xl text-gray-900 font-serif font-bold text-center">
     
             
-           <img 
+           <Image
           src="images/canva.png" 
           alt="Summer Collection" 
           className="w-full h-auto object-cover"

@@ -1,10 +1,9 @@
-'use client'
+'use client';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation"; 
 import { useState, useEffect } from "react";
 import sanityClient from "@sanity/client";
-
 
 const sanity = sanityClient({
   projectId: "qep58c2d", 
@@ -12,6 +11,21 @@ const sanity = sanityClient({
   apiVersion: "2025-01-13", 
   useCdn: true,
 });
+
+
+interface RawProduct {
+  _id: string;
+  title: string;
+  price: number;
+  description: string;
+  discountPercentage: number;
+  productImage: {
+    asset: {
+      url: string;
+    };
+  };
+  tags: string[];
+}
 
 
 interface Product {
@@ -44,6 +58,7 @@ const ProductCards: React.FC = () => {
 
   const router = useRouter();
 
+  // Fetch products from Sanity CMS
   const fetchProducts = async () => {
     try {
       const query = `
@@ -53,18 +68,18 @@ const ProductCards: React.FC = () => {
           price,
           description,
           discountPercentage,
-          "imageUrl": productImage.asset->url,
+          productImage { asset -> { url } },
           tags
         }
       `;
-      const data = await sanity.fetch(query);
-      const mappedProducts = data.map((product: any) => ({
+      const data: RawProduct[] = await sanity.fetch(query); // Type the fetched data
+      const mappedProducts = data.map((product) => ({
         id: product._id,
         title: product.title,
         price: product.price,
         description: product.description,
         discountPercentage: product.discountPercentage,
-        imageUrl: product.imageUrl,
+        imageUrl: product.productImage.asset.url,
         tags: product.tags,
       }));
       setProducts(mappedProducts);
@@ -73,7 +88,7 @@ const ProductCards: React.FC = () => {
     }
   };
 
-  
+ 
   const addToCart = (product: Product) => {
     const newCartItem: CartItem = {
       id: product.id,
@@ -87,7 +102,7 @@ const ProductCards: React.FC = () => {
     setTimeout(() => setShowNotification(false), 3000);
   };
 
- 
+  
   const handleBillingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBillingInfo((prev) => ({ ...prev, [name]: value }));
@@ -97,7 +112,7 @@ const ProductCards: React.FC = () => {
   const calculateTotal = () =>
     cart.reduce((total, item) => total + item.price, 0);
 
- 
+  
   const handleCheckout = () => {
     if (!billingInfo.name || !billingInfo.address) {
       alert("Please fill out your billing information before checking out.");
@@ -108,7 +123,7 @@ const ProductCards: React.FC = () => {
     router.push(`/checkout?cart=${encodeURIComponent(cartData)}`);
   };
 
-  
+  // Fetch products on component mount
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -117,7 +132,6 @@ const ProductCards: React.FC = () => {
     <div className="p-4">
       <h2 className="text-center text-slate-800 mt-4 mb-4">Products from API Data</h2>
 
-      
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <div
@@ -157,14 +171,12 @@ const ProductCards: React.FC = () => {
         ))}
       </div>
 
-     
       {showNotification && (
         <div className="notification fixed top-0 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-md z-50">
           Item added to cart!
         </div>
       )}
 
-    
       {showBillingPanel && (
         <div className="side-panel fixed right-0 top-0 bg-white shadow-lg p-4 w-1/3 lg:w-1/4 h-full overflow-auto">
           <h3 className="text-lg font-bold mb-4">Billing Information</h3>
@@ -222,3 +234,4 @@ const ProductCards: React.FC = () => {
 };
 
 export default ProductCards;
+

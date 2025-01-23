@@ -6,6 +6,7 @@ import Navbar from '../Components/Navbar';
 import Topbar from '../Components/Topbar';
 import ProductCards from '../Product/page';
 import Testimonial from '../Components/testimonials';
+import Image from 'next/image';
 
 const page = () => {
   return (
@@ -14,7 +15,7 @@ const page = () => {
       <Navbar />
       <br />
       <div className='bg-gray-100 w-full'>
-        <img src="images/girlyy.png" className="w-full object-cover" />
+        <Image src="images/girlyy.png" alt='west'  className="w-full object-cover" />
         <br />
         <br />
       </div>
@@ -88,7 +89,7 @@ const page = () => {
       <br />
 
       <div className='flex justify-center items-center'>
-        <img src="images/fir.png" className="h-48 w-48 object-contain" />
+        <Image src="images/fir.png" alt='west' className="h-48 w-48 object-contain" />
       </div>
     </div>
   )
