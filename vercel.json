@@ -1,20 +1,30 @@
 {
-    "version": 2,
-    "builds": [
+    "rewrites": [
       {
-        "src": "src/page.tsx",
-        "use": "@vercel/node"
+        "source": "/api/sanity/products",
+        "destination": "https://qep58c2d.api.sanity.io/v1/data/query/production?query=*[_type == 'product']"
       }
     ],
-    "routes": [
+    "version": 2,
+    "headers": [
       {
-        "src": "/(.*)",
-        "dest": "src/page.tsx",
-        "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-        "headers": {
-          "Access-Control-Allow-Origin": "*"
-        }
+        "source": "/(.*)",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          },
+          {
+            "key": "Access-Control-Allow-Methods",
+            "value": "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+          },
+          {
+            "key": "Access-Control-Allow-Headers",
+            "value": "Content-Type"
+          }
+        ]
       }
     ]
   }
+  
   
