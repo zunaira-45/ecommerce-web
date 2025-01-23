@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation"; 
 import { useState, useEffect } from "react";
 import sanityClient from "@sanity/client";
+import Image from "next/image";
 
 const sanity = sanityClient({
   projectId: "qep58c2d", 
@@ -137,7 +138,7 @@ const ProductCards: React.FC = () => {
             key={product.id}
             className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow duration-300"
           >
-            <img
+            <Image
               src={product.imageUrl}
               alt={product.title}
               width={300}
@@ -203,7 +204,7 @@ const ProductCards: React.FC = () => {
                 key={index}
                 className="flex items-center space-x-4 bg-gray-100 p-2 rounded-md"
               >
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={item.title}
                   width={50}
@@ -233,4 +234,3 @@ const ProductCards: React.FC = () => {
 };
 
 export default ProductCards;
-
