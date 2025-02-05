@@ -234,4 +234,3 @@ const ProductCards: React.FC = () => {
 };
 
 export default ProductCards;
-

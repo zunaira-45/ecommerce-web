@@ -176,7 +176,7 @@ const ProductDetails = ({ params }: { params: { id: string } }) => {
                 key={index}
                 className="flex items-center space-x-4 bg-gray-100 p-2 rounded-md"
               >
-                <img
+                <Image
                   src={item.imageUrl}
                   alt={item.title}
                   className="rounded-md w-12 h-12 object-cover"
