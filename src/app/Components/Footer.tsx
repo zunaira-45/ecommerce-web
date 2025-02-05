@@ -21,6 +21,8 @@ const Footer = () => {
       <br />
       <br />
 
+      <h1 className='text-3xl text-center font-bold bg-blue-900 text-white'>@ALL RIGHT RESERVED MADE BY ZUNAIRA HUSSAIN </h1>
+
      
       <div className="bg-white">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 p-6">

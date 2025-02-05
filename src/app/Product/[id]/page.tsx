@@ -6,7 +6,6 @@ import Testimonial from "@/app/Components/testimonials";
 import Footer from "@/app/Components/Footer"; 
 import Navbar from "@/app/Components/Navbar";
 import Image from "next/image";
-import CheckoutPage from "@/app/checkout/page";
 import Link from "next/link";
 
 
@@ -110,7 +109,7 @@ const ProductDetails = ({ params }: { params: { id: string } }) => {
       <h1 className="text-center text-2xl font-bold mb-4">{product.title}</h1>
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-1/3">
-          <img
+          <Image
             src={product.imageUrl}
             alt={product.title}
             className="object-cover rounded-lg shadow-md w-full h-auto"

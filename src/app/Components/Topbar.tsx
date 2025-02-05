@@ -20,7 +20,7 @@ const Topbar = () => {
           </div>
           <div className="flex items-center gap-2">
             <MdOutlineEmail />
-            <p>michelle.rivera@example.com</p>
+            <p>hussainzunaira07@gmail.com</p>
           </div>
           <p className="hidden md:block">Follow Us and get a chance to win 80% off</p>
           <div className="flex items-center gap-3">
