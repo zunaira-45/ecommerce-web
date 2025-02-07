@@ -2,68 +2,113 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { FaSearch, FaMoon, FaSun, FaDownload, FaEye } from "react-icons/fa";
+import { toast } from "react-toastify"; 
 
 interface Order {
   id: string;
   cart: { id: string; title: string; price: number; imageUrl: string }[];
-  billingInfo: { name: string; address: string; paymentMethod: string };
+  billingInfo: { name: string; address: string; postalCode: string; paymentMethod: string };
   status: string;
   totalPrice: number;
 }
 
 const AdminDashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("All");
+  const [darkMode, setDarkMode] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const router = useRouter();
 
-  // Fetch orders from localStorage
+
   useEffect(() => {
     const storedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
     setOrders(storedOrders);
   }, []);
 
   const handleStatusChange = (orderId: string, newStatus: string) => {
-    const updatedOrders = orders.map((order) => {
-      if (order.id === orderId) {
-        return { ...order, status: newStatus };
-      }
-      return order;
-    });
+    const updatedOrders = orders.map((order) =>
+      order.id === orderId ? { ...order, status: newStatus } : order
+    );
     setOrders(updatedOrders);
-
-    // Update localStorage with the new order status
     localStorage.setItem("orders", JSON.stringify(updatedOrders));
+    toast.success(`Order ${orderId} status updated to ${newStatus}`);
   };
 
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+
+  const filteredOrders = orders.filter((order) => {
+    return (
+      (selectedStatus === "All" || order.status === selectedStatus) &&
+      order.billingInfo.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <div className="bg-blue-900 text-white p-4 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">Admin Dashboard</h1>
+    <div className={`min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"} flex flex-col`}>
+  
+      <div className={`p-4 shadow-md flex justify-between items-center ${darkMode ? "bg-gray-800" : "bg-blue-900 text-white"}`}>
+        <h1 className="text-xl font-bold">Admin Dashboard</h1>
+        <div className="flex items-center space-x-3">
           <button
-            className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-100"
+            className="px-3 py-2 bg-white text-blue-600 rounded-md hover:bg-gray-200"
             onClick={() => router.push("/")}
           >
             Back to Home
           </button>
+          <button
+            className="p-2 rounded-full bg-gray-200 hover:bg-gray-300"
+            onClick={toggleDarkMode}
+          >
+            {darkMode ? <FaSun className="text-yellow-500" /> : <FaMoon className="text-gray-700" />}
+          </button>
         </div>
       </div>
 
-      <div className="flex-grow p-6">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">Orders</h2>
+    
+      <div className="flex justify-between p-4 bg-white shadow-md">
+        <div className="flex space-x-2">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            className="p-2 border rounded-md"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <button className="bg-blue-950 text-white p-2 rounded-md hover:bg-blue-600">
+            <FaSearch />
+          </button>
+        </div>
+        <select
+          className="p-2 border rounded-md"
+          value={selectedStatus}
+          onChange={(e) => setSelectedStatus(e.target.value)}
+        >
+          <option value="All">All Orders</option>
+          <option value="Pending">Pending</option>
+          <option value="Placed">Placed</option>
+          <option value="Shipped">Shipped</option>
+        </select>
+      </div>
+
+     
+      <div className="p-6">
+        <h2 className="text-3xl font-bold mb-6">Orders</h2>
         {orders.length > 0 ? (
           <table className="min-w-full table-auto border-collapse">
             <thead>
-              <tr>
-                <th className="px-4 py-2 border-b text-left text-lg font-semibold">Order ID</th>
-                <th className="px-4 py-2 border-b text-left text-lg font-semibold">Customer Name</th>
-                <th className="px-4 py-2 border-b text-left text-lg font-semibold">Total Price</th>
-                <th className="px-4 py-2 border-b text-left text-lg font-semibold">Status</th>
-                <th className="px-4 py-2 border-b text-left text-lg font-semibold">Actions</th>
+              <tr className="bg-gray-200">
+                <th className="px-4 py-2 border-b text-left font-semibold">Order ID</th>
+                <th className="px-4 py-2 border-b text-left font-semibold">Customer Name</th>
+                <th className="px-4 py-2 border-b text-left font-semibold">Total Price</th>
+                <th className="px-4 py-2 border-b text-left font-semibold">Status</th>
+                <th className="px-4 py-2 border-b text-left font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
-                <tr key={order.id}>
+              {filteredOrders.map((order) => (
+                <tr key={order.id} className="hover:bg-gray-100">
                   <td className="px-4 py-2 border-b">{order.id}</td>
                   <td className="px-4 py-2 border-b">{order.billingInfo.name}</td>
                   <td className="px-4 py-2 border-b">${order.totalPrice.toFixed(2)}</td>
@@ -80,27 +125,24 @@ const AdminDashboard: React.FC = () => {
                       {order.status}
                     </span>
                   </td>
-                  <td className="px-4 py-2 border-b">
+                  <td className="px-4 py-2 border-b flex space-x-2">
                     <button
                       onClick={() => handleStatusChange(order.id, "Placed")}
-                      className="mr-2 px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-                      disabled={order.status === "Placed"}
+                      className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
                     >
                       Place
                     </button>
                     <button
                       onClick={() => handleStatusChange(order.id, "Shipped")}
-                      className="mr-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
-                      disabled={order.status === "Shipped"}
+                      className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"
                     >
                       Ship
                     </button>
                     <button
-                      onClick={() => handleStatusChange(order.id, "Pending")}
-                      className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
-                      disabled={order.status === "Pending"}
+                      onClick={() => setSelectedOrder(order)}
+                      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                     >
-                      Pending
+                      <FaEye />
                     </button>
                   </td>
                 </tr>
@@ -116,5 +158,4 @@ const AdminDashboard: React.FC = () => {
 };
 
 export default AdminDashboard;
-
 
