@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Topbar from "../Components/Topbar";
+import Navbar from "../Components/Navbar";
 
 interface CartItem {
   id: string;
@@ -16,7 +18,10 @@ interface Order {
   cart: CartItem[];
   billingInfo: {
     name: string;
+    email: string;
+    phone: string;
     address: string;
+    postalCode: string;
     paymentMethod: string;
   };
   status: "Pending";
@@ -28,7 +33,10 @@ const CheckoutPage: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [billingInfo, setBillingInfo] = useState({
     name: "",
+    email: "",
+    phone: "",
     address: "",
+    postalCode: "",
     paymentMethod: "Credit Card",
   });
   const [orderPlaced, setOrderPlaced] = useState(false);
@@ -55,8 +63,8 @@ const CheckoutPage: React.FC = () => {
   };
 
   const handlePlaceOrder = () => {
-    if (!billingInfo.name || !billingInfo.address) {
-      alert("Please complete your billing information.");
+    if (!billingInfo.name || !billingInfo.address || !billingInfo.phone || !billingInfo.postalCode) {
+      alert("Please complete all required billing information.");
       return;
     }
 
@@ -82,24 +90,14 @@ const CheckoutPage: React.FC = () => {
     cart.reduce((total, item) => total + item.price, 0);
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      {orderPlaced ? (
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-          <h1 className="text-2xl font-bold text-green-600">
-            Order Placed Successfully!
-          </h1>
-          <p className="mt-2 text-gray-700">Thank you for your order.</p>
-          <button
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md"
-=======
     <div className="min-h-screen bg-gray-100 flex flex-col">
+      <Topbar/>
+      <Navbar/>
       <div className="bg-blue-900 text-white p-4 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-xl font-bold">CLOTHING & BAGS</h1>
           <button
             className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-100"
->>>>>>> 029fca5ae6e40c8c2f616bf6750315fe6d7d1706
             onClick={() => router.push("/")}
           >
             Home Page
@@ -107,60 +105,7 @@ const CheckoutPage: React.FC = () => {
         </div>
       </div>
 
-<<<<<<< HEAD
-          {cart.length > 0 ? (
-            cart.map((item) => (
-              <div key={item.id} className="flex items-center mb-4">
-                <Image src={item.imageUrl} alt={item.title} width={80} height={80} />
-                <div className="ml-4">
-                  <h3 className="text-lg font-semibold">{item.title}</h3>
-                  <p className="text-gray-600">${item.price.toFixed(2)}</p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>Your cart is empty.</p>
-          )}
-
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold">Billing Information</h2>
-            <input
-              type="text"
-              name="name"
-              value={billingInfo.name}
-              onChange={handleBillingChange}
-              placeholder="Full Name"
-              className="w-full p-3 border rounded mt-2"
-            />
-            <input
-              type="text"
-              name="address"
-              value={billingInfo.address}
-              onChange={handleBillingChange}
-              placeholder="Shipping Address"
-              className="w-full p-3 border rounded mt-2"
-            />
-            <select
-              name="paymentMethod"
-              value={billingInfo.paymentMethod}
-              onChange={handleBillingChange}
-              className="w-full p-3 border rounded mt-2"
-            >
-              <option value="Credit Card">Credit Card</option>
-              <option value="PayPal">PayPal</option>
-              <option value="Cash on Delivery">Cash on Delivery</option>
-            </select>
-          </div>
-
-          <button
-            className="w-full py-3 bg-green-600 text-white mt-4 rounded"
-            onClick={handlePlaceOrder}
-          >
-            Place Order
-          </button>
-        </div>
-      )}
-=======
+      
       <div className="flex-grow flex items-center justify-center">
         {orderPlaced ? (
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
@@ -181,7 +126,7 @@ const CheckoutPage: React.FC = () => {
           <div className="max-w-4xl w-full bg-white rounded-lg shadow-lg p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Checkout</h1>
 
-            {/* Cart Items */}
+            
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">
                 Order Summary
@@ -219,7 +164,7 @@ const CheckoutPage: React.FC = () => {
               )}
             </div>
 
-            {/* Billing Information */}
+        
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">
                 Billing Information
@@ -231,7 +176,23 @@ const CheckoutPage: React.FC = () => {
                   value={billingInfo.name}
                   onChange={handleBillingChange}
                   placeholder="Full Name"
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-md"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={billingInfo.email}
+                  onChange={handleBillingChange}
+                  placeholder="Email Address"
+                  className="w-full p-3 border border-gray-300 rounded-md"
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  value={billingInfo.phone}
+                  onChange={handleBillingChange}
+                  placeholder="Phone Number"
+                  className="w-full p-3 border border-gray-300 rounded-md"
                 />
                 <input
                   type="text"
@@ -239,13 +200,21 @@ const CheckoutPage: React.FC = () => {
                   value={billingInfo.address}
                   onChange={handleBillingChange}
                   placeholder="Shipping Address"
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-md"
+                />
+                <input
+                  type="text"
+                  name="postalCode"
+                  value={billingInfo.postalCode}
+                  onChange={handleBillingChange}
+                  placeholder="Postal Code"
+                  className="w-full p-3 border border-gray-300 rounded-md"
                 />
                 <select
                   name="paymentMethod"
                   value={billingInfo.paymentMethod}
                   onChange={handleBillingChange}
-                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full p-3 border border-gray-300 rounded-md"
                 >
                   <option value="Credit Card">Credit Card</option>
                   <option value="PayPal">PayPal</option>
@@ -254,7 +223,7 @@ const CheckoutPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Place Order Button */}
+         
             <button
               className="w-full py-3 bg-green-600 text-white text-lg font-semibold rounded-md hover:bg-green-700"
               onClick={handlePlaceOrder}
@@ -264,17 +233,9 @@ const CheckoutPage: React.FC = () => {
           </div>
         )}
       </div>
->>>>>>> 029fca5ae6e40c8c2f616bf6750315fe6d7d1706
     </div>
   );
 };
 
 export default CheckoutPage;
-<<<<<<< HEAD
-=======
 
-
-
-
-
->>>>>>> 029fca5ae6e40c8c2f616bf6750315fe6d7d1706
