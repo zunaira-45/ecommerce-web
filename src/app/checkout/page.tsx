@@ -93,18 +93,6 @@ const CheckoutPage: React.FC = () => {
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Topbar/>
       <Navbar/>
-      <div className="bg-blue-900 text-white p-4 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">CLOTHING & BAGS</h1>
-          <button
-            className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            onClick={() => router.push("/")}
-          >
-            Home Page
-          </button>
-        </div>
-      </div>
-
       
       <div className="flex-grow flex items-center justify-center">
         {orderPlaced ? (
@@ -238,4 +226,6 @@ const CheckoutPage: React.FC = () => {
 };
 
 export default CheckoutPage;
+
+
 
