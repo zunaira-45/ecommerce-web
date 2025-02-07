@@ -2,13 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaSearch, FaMoon, FaSun, FaDownload, FaEye } from "react-icons/fa";
-import { toast } from "react-toastify"; 
+import { FaSearch, FaMoon, FaSun, FaEye } from "react-icons/fa";
+import { toast } from "react-toastify";
+import Topbar from "../Components/Topbar";
 
 interface Order {
   id: string;
   cart: { id: string; title: string; price: number; imageUrl: string }[];
-  billingInfo: { name: string; address: string; postalCode: string; paymentMethod: string };
+  billingInfo: {
+    name: string;
+    address: string;
+    postalCode: string;
+    paymentMethod: string;
+  };
   status: string;
   totalPrice: number;
 }
@@ -20,7 +26,6 @@ const AdminDashboard: React.FC = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const router = useRouter();
-
 
   useEffect(() => {
     const storedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
@@ -46,9 +51,17 @@ const AdminDashboard: React.FC = () => {
   });
 
   return (
-    <div className={`min-h-screen ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"} flex flex-col`}>
-  
-      <div className={`p-4 shadow-md flex justify-between items-center ${darkMode ? "bg-gray-800" : "bg-blue-900 text-white"}`}>
+    <div
+      className={`min-h-screen ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"
+      } flex flex-col`}
+    >
+      <Topbar/>
+      <div
+        className={`p-4 shadow-md flex justify-between items-center ${
+          darkMode ? "bg-gray-800" : "bg-blue-900 text-white"
+        }`}
+      >
         <h1 className="text-xl font-bold">Admin Dashboard</h1>
         <div className="flex items-center space-x-3">
           <button
@@ -92,7 +105,7 @@ const AdminDashboard: React.FC = () => {
         </select>
       </div>
 
-     
+    
       <div className="p-6">
         <h2 className="text-3xl font-bold mb-6">Orders</h2>
         {orders.length > 0 ? (
@@ -153,6 +166,22 @@ const AdminDashboard: React.FC = () => {
           <p className="text-gray-600">No orders available.</p>
         )}
       </div>
+
+      
+      {selectedOrder && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded shadow-lg max-w-lg">
+            <h2 className="text-2xl font-bold mb-4">Order Details</h2>
+            <p><strong>Order ID:</strong> {selectedOrder.id}</p>
+            <p><strong>Customer:</strong> {selectedOrder.billingInfo.name}</p>
+            <p><strong>Total Price:</strong> ${selectedOrder.totalPrice.toFixed(2)}</p>
+            <p><strong>Address:</strong> {selectedOrder.billingInfo.address}</p>
+            <button onClick={() => setSelectedOrder(null)} className="mt-4 bg-red-500 text-white p-2 rounded">
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
